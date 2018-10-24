@@ -30,7 +30,7 @@ public:  // private
 public:
     bool debugPrint(UART_HandleTypeDef *huart,char _out[]);
     bool debugPrintln(UART_HandleTypeDef *huart,char _out[]);
-    bool clear(UART_HandleTypeDef *huart, const char* Arr[MAX_ROWS][MAX_ROW_LENGTH]);
+    bool clear(UART_HandleTypeDef *huart, const char* Arr);
 public:
 
 }; // class SerBase {

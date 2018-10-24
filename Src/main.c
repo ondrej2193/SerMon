@@ -200,7 +200,7 @@ int main(void)
   /* definition and creation of serMonTask */
   if( xBinarySemaphoreHandle != NULL )
   {
-  osThreadDef(serMonTask, SerialMonitor, osPriorityNormal, 0, 128);
+  osThreadDef(serMonTask, SerialMonitor, osPriorityNormal, 0, 512);
   serMonTaskHandle = osThreadCreate(osThread(serMonTask), NULL);
   }
 
@@ -215,8 +215,8 @@ int main(void)
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
- 
-
+  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
   /* Start scheduler */
   osKernelStart();
   
@@ -534,8 +534,8 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
   //xSemaphore = xSemaphoreCreateBinary();
   osDelay(100);
-  HAL_TIM_Base_Start_IT(&htim2);
-  HAL_TIM_Base_Start_IT(&htim3);
+//  HAL_TIM_Base_Start_IT(&htim2);
+//  HAL_TIM_Base_Start_IT(&htim3);
   /* Infinite loop */
   for(;;)
   {
@@ -600,7 +600,7 @@ void SerialMonitor(void const * argument)
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-	    	Temp = SerKomunik.clear(&huart1,&Hlavicka[0][0]);
+	    	Temp = SerKomunik.clear(&huart1, &Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
 	    	//osDelay(1000);
 	    }
     	osDelay(1);

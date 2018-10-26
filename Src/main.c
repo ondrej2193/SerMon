@@ -53,7 +53,6 @@
 #include "SerBase.h"
 #include "SerConsts.h"
 
-//#include "SerConst.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -117,7 +116,6 @@ using namespace SerBaseNmsp;
 
 int main(void)
 {
-
 //    COM Commands[2]={{"RST\0",SerKomunik.clear,'H'},{"CLS\0",SerKomunik.clear,0}};
   /* USER CODE BEGIN 1 */
 
@@ -183,7 +181,6 @@ int main(void)
 
   osSemaphoreDef(xBinarySemaphore);
   xBinarySemaphoreHandle = osSemaphoreCreate(osSemaphore(xBinarySemaphore), 1);
-
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -205,7 +202,7 @@ int main(void)
   }
 
   /* definition and creation of CANTask */
-  osThreadDef(CANTask, CANKomunik, osPriorityNormal, 0, 128);
+  osThreadDef(CANTask, CANKomunik, osPriorityIdle, 0, 128);
   CANTaskHandle = osThreadCreate(osThread(CANTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -215,8 +212,8 @@ int main(void)
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
-  HAL_TIM_Base_Start_IT(&htim2);
-  HAL_TIM_Base_Start_IT(&htim3);
+ 
+
   /* Start scheduler */
   osKernelStart();
   
@@ -226,6 +223,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -354,7 +352,7 @@ static void MX_TIM2_Init(void)
   }
 
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
-  sSlaveConfig.InputTrigger = TIM_TS_ITR2;
+  sSlaveConfig.InputTrigger = TIM_TS_ITR1;
   if (HAL_TIM_SlaveConfigSynchronization(&htim2, &sSlaveConfig) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -421,7 +419,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 0x400;
+  htim4.Init.Period = 0X400;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -500,12 +498,11 @@ static void MX_GPIO_Init(void)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 
@@ -534,8 +531,8 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
   //xSemaphore = xSemaphoreCreateBinary();
   osDelay(100);
-//  HAL_TIM_Base_Start_IT(&htim2);
-//  HAL_TIM_Base_Start_IT(&htim3);
+  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
   /* Infinite loop */
   for(;;)
   {
@@ -658,7 +655,7 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while(1) 
+  while(1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
@@ -676,7 +673,7 @@ void assert_failed(uint8_t* file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

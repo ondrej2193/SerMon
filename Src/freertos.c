@@ -80,7 +80,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+   
 /* USER CODE END FunctionPrototypes */
 
 /* Private application code --------------------------------------------------*/

@@ -53,7 +53,7 @@
 #include "SerConsts.h"
 #include "SerConsts.cpp"
 #include "SerBase.h"
-#include "SerBase.cpp"
+//#include "SerBase.cpp"
 
 /* USER CODE BEGIN Includes */
 
@@ -79,6 +79,8 @@ osSemaphoreId biSemGetCANDataHandle;
 osSemaphoreId biSemGetSerialDataHandle;
 osSemaphoreId biSemSendCANDataHandle;
 osSemaphoreId xBinarySemaphoreHandle;
+
+SerBase SerBaseCOM1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -118,7 +120,7 @@ void CANKomunik(void const * argument);
 int main(void)
 {
 	using namespace SerConstsNmsp;
-	using namespace SerBaseNmsp;
+//	using namespace SerBaseNmsp;
 //    COM Commands[2]={{"RST\0",SerKomunik.clear,'H'},{"CLS\0",SerKomunik.clear,0}};
   /* USER CODE BEGIN 1 */
 
@@ -554,19 +556,20 @@ void StartDefaultTask(void const * argument)
 void SerialMonitor(void const * argument)
 {
 //	SerBase SerKomunik;
-	bool Temp;
+  bool Temp;
 
   /* USER CODE BEGIN SerialMonitor */
   /* Infinite loop */
 
-	 BaseType_t xHigherPriorityTaskWoken;
-	  xHigherPriorityTaskWoken = pdFALSE;
+  BaseType_t xHigherPriorityTaskWoken;
+  xHigherPriorityTaskWoken = pdFALSE;
 	   //xSemaphoreTake ( xBinarySemaphoreHandle,1);
 
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-	    	Temp = SerBaseNmsp::clear(&huart1, &SerConstsNmsp::Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
+
+	    	Temp = SerBaseCOM1.clear(&huart1, &SerConstsNmsp::Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
 	    	//osDelay(1000);
 	    }
     	osDelay(1);

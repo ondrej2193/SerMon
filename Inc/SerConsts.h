@@ -7,6 +7,10 @@
 #ifndef SERCONST_H_
 #define SERCONST_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 #include "stm32f1xx_hal.h"
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!  DEFINITIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 #define MAX_ROW_LENGTH_FLOAT   75.0
@@ -30,5 +34,8 @@ typedef struct {
 } PRINT_FORMAT;
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SERCONSTS_H_ */

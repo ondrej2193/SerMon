@@ -1,5 +1,8 @@
 
 
+#ifndef SERCONST_CPP_
+#define SERCONST_CPP_
+
 #include "SerConsts.h"
 
 namespace SerConstsNmsp {
@@ -40,3 +43,5 @@ namespace SerConstsNmsp {
 	};
 
 }
+
+#endif /* SERCONST_CPP_ */

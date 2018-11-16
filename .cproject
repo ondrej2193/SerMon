@@ -125,13 +125,13 @@
 							<tool id="com.atollic.truestudio.ar.base.1524177669" name="Archiver" superClass="com.atollic.truestudio.ar.base"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.atollic.truestudio.exe.debug.1518366166.165757268" name="main.cpp" rcbsApplicability="disable" resourcePath="Src/main.cpp" toolsToInvoke="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185.1360544688">
+						<tool id="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185.1360544688" name="C++ Compiler" superClass="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185"/>
+					</fileInfo>
 					<fileInfo id="com.atollic.truestudio.exe.debug.1518366166.1688336185" name="main.c" rcbsApplicability="disable" resourcePath="Src/main.c" toolsToInvoke="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447.994364732">
 						<tool command="arm-atollic-eabi-g++ -c " id="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447.994364732" name="C Compiler" superClass="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447">
 							<inputType id="com.atollic.truestudio.gcc.input.875889766" superClass="com.atollic.truestudio.gcc.input"/>
 						</tool>
-					</fileInfo>
-					<fileInfo id="com.atollic.truestudio.exe.debug.1518366166.1419600230" name="SerConsts.cpp" rcbsApplicability="disable" resourcePath="Src/SerConsts.cpp" toolsToInvoke="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185.137885260">
-						<tool id="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185.137885260" name="C++ Compiler" superClass="com.atollic.truestudio.exe.debug.toolchain.gpp.981298185"/>
 					</fileInfo>
 					<fileInfo id="com.atollic.truestudio.exe.debug.311825581.983937533" name="" rcbsApplicability="disable" resourcePath="nofile" toolsToInvoke="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447.1976695455">
 						<tool id="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447.1976695455" name="C Compiler" superClass="com.atollic.truestudio.exe.debug.toolchain.gcc.1836874447">
@@ -142,7 +142,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="SerConsts.cpp|SerBase.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry excluding="main.cpp|SerConsts.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
 					</sourceEntries>
 				</configuration>

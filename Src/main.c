@@ -53,8 +53,7 @@
 #include "SerConsts.h"
 #include "SerConsts.cpp"
 #include "SerBase.h"
-#include "SerBase.cpp"
-#include "SerMonBase.h"
+//#include "SerBase.cpp"
 
 /* USER CODE BEGIN Includes */
 
@@ -62,7 +61,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 CAN_HandleTypeDef hcan;
+
 I2C_HandleTypeDef hi2c1;
+
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
@@ -78,6 +79,8 @@ osSemaphoreId biSemGetCANDataHandle;
 osSemaphoreId biSemGetSerialDataHandle;
 osSemaphoreId biSemSendCANDataHandle;
 osSemaphoreId xBinarySemaphoreHandle;
+
+SerBase SerBaseCOM1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -113,18 +116,40 @@ void CANKomunik(void const * argument);
   * @retval None
   */
 
-SerMonBase	SerMonBaseCOM1;
+
 int main(void)
 {
 	using namespace SerConstsNmsp;
-	using namespace SerBaseNmsp;
-//	using namespace SerMonBaseNmsp;
+//	using namespace SerBaseNmsp;
+//    COM Commands[2]={{"RST\0",SerKomunik.clear,'H'},{"CLS\0",SerKomunik.clear,0}};
+  /* USER CODE BEGIN 1 */
+
+/*	 char const Hlav[MAX_ROWS][MAX_ROW_LENGTH]={
+	      "ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป",
+	      "บ         Terminal control program for Live detection organism          บ",
+	      "บ                     running under FreeRTOS                            บ",
+	      "บ           (C) Ondrej Sakala for (R) GlobalLogic  s.r.o.               บ",
+	      "ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ"
+	    };*/
+
+  /* USER CODE END 1 */
+
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
   /* Configure the system clock */
   SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
@@ -161,6 +186,13 @@ int main(void)
 
   osSemaphoreDef(xBinarySemaphore);
   xBinarySemaphoreHandle = osSemaphoreCreate(osSemaphore(xBinarySemaphore), 1);
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
@@ -177,6 +209,15 @@ int main(void)
   /* definition and creation of CANTask */
   osThreadDef(CANTask, CANKomunik, osPriorityIdle, 0, 128);
   CANTaskHandle = osThreadCreate(osThread(CANTask), NULL);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+ 
 
   /* Start scheduler */
   osKernelStart();
@@ -515,19 +556,20 @@ void StartDefaultTask(void const * argument)
 void SerialMonitor(void const * argument)
 {
 //	SerBase SerKomunik;
-	bool Temp;
+  bool Temp;
 
   /* USER CODE BEGIN SerialMonitor */
   /* Infinite loop */
 
-	 BaseType_t xHigherPriorityTaskWoken;
-	  xHigherPriorityTaskWoken = pdFALSE;
+  BaseType_t xHigherPriorityTaskWoken;
+  xHigherPriorityTaskWoken = pdFALSE;
 	   //xSemaphoreTake ( xBinarySemaphoreHandle,1);
 
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-	    	Temp = SerMonBaseCOM1.clear(&huart1, &SerConstsNmsp::Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
+
+	    	Temp = SerBaseCOM1.Clear(&huart1, &SerConstsNmsp::Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
 	    	//osDelay(1000);
 	    }
     	osDelay(1);

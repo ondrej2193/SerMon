@@ -8,13 +8,14 @@
 #ifndef SERMONBASE_H_
 #define SERMONBASE_H_
 
-//namespace SerMonBaseNmsp {
-	class SerMonBase {
-		public:
-			SerMonBase();
-			virtual ~SerMonBase();
-			bool clear(UART_HandleTypeDef *huart,const char* Arr);
-	};	// class SerMonBase
-//} // namespace TestNmsp
+namespace TestNmsp {
+
+class SerMonBase {
+public:
+	SerMonBase();
+	virtual ~SerMonBase();
+};
+
+} /* namespace TestNmsp */
 
 #endif /* SERMONBASE_H_ */

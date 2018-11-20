@@ -28,7 +28,76 @@
     	return true;
     }
 
-    bool SerBase::Clear(UART_HandleTypeDef *huart,const char* pcArr){    /* zmazanie obrazovky */
+    bool SerBase::Clear(){    /* zmazanie obrazovky */
+
+    	unsigned char  ucLocCount = 0;
+        for (ucLocCount = 0; ucLocCount < MAX_ROWS; ucLocCount++) {
+        	debugPrintln(_huart,const_cast<char*>(_pcArr+(MAX_ROW_LENGTH*ucLocCount)));	// print full line
+        }
+        return true;
+    }
+
+	bool SerBase::WriteMem () {
+
+        return true;
+	}
+
+	bool SerBase::ReadMem () {
+        return true;
+	}
+
+	bool SerBase::SetMemAdr () {
+        return true;
+	}
+
+	bool SerBase::SetMemSelector () {
+        return true;
+	}
+
+	bool SerBase::TaskList () {
+         return true;
+	}
+
+	bool SerBase::SetMemBase () {
+         return true;
+	}
+
+/*******************************************/
+
+	bool SerBase::SetAddress (long lAddress) {
+		_lAddress = lAddress;
+		return true;
+	}
+
+	bool SerBase::SetData (long lData) {
+		_lData = lData;
+		return true;
+	}
+
+	bool SerBase::GetData (long* lData) {
+		*lData = _lData;
+		return true;
+	}
+
+	bool SerBase::SetMemBase (long lMemBase) {
+		lMemBase = _lMemBase;
+		return true;
+	}
+
+	bool SerBase::SetMemSelector (char cMemSelect) {
+		_cMemSelect = cMemSelect;
+		return true;
+	}
+
+	bool SerBase::SetHuartArr (UART_HandleTypeDef *huart, const char* pcArr) {
+		_huart = huart;
+		_pcArr = pcArr;
+		return true;
+	}
+
+	/*
+
+	     bool SerBase::Clear(UART_HandleTypeDef *huart,const char* pcArr){
 
     	unsigned char  ucLocCount = 0;
         for (ucLocCount = 0; ucLocCount < MAX_ROWS; ucLocCount++) {
@@ -61,4 +130,6 @@
         return true;
 	}
 
+	 *
+	 */
 

@@ -19,33 +19,33 @@
 
 class SerBase {
 	public:  // private
-		// private constructor and destructor
 		SerBase();
 		~SerBase();
-		// private copy constructor and assignment operator
-		//SerBase(const SerBase&);
-		//SerBase& operator=(const SerBase&);
-		//static SerBase *m_instanceSingleton;
+	public:
+		bool Clear(void);
+		bool WriteMem (void);
+		bool ReadMem (void);
+		bool SetMemAdr (void);
+		bool SetMemSelector (void);
+		bool TaskList (void);
+		bool SetMemBase (void);
+	public:
+		bool SetAddress (long lAddress);
+		bool SetData (long lData);
+		bool GetData (long* lData);
+		bool SetMemBase (long lAddress);
+		bool SetMemSelector (char cMemSelect);
+		bool SetHuartArr (UART_HandleTypeDef *huart, const char* pcArr);
 	private:
 		bool debugPrint(UART_HandleTypeDef *huart,char _out[]);
 		bool debugPrintln(UART_HandleTypeDef *huart,char _out[]);
-	public:
-		bool Clear(UART_HandleTypeDef *huart, const char* pcArr);
-		bool WriteMem (long lAddres, long lData);
-		bool ReadMem (long lAddres, long lData);
-		bool SetMemAdr (long lAddres);
-		bool SetMemSelector (char cMemSelect);
-		bool TaskList (void);
-		bool SetMemBase (long lAdress);
-	public:
-		int TempPublicVar;
 	private:
-	//	COM Commands[2]={
-	//	  "CLS\0",SerBase::clear(UART_HandleTypeDef *,const char*),0,                    /* 0 */
-	//	  "BASE\0",clear(UART_HandleTypeDef *,const char*),0,            /* 15 */
-	//	};
-
-		//(*Func)(UART_HandleTypeDef *)
+		long _lAddress;
+		long _lData;
+		long _lMemBase;
+		char _cMemSelect;
+		UART_HandleTypeDef *_huart;
+		const char *_pcArr;
 
 }; // class SerBase {
 

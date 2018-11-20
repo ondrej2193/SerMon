@@ -120,18 +120,9 @@ void CANKomunik(void const * argument);
 int main(void)
 {
 	using namespace SerConstsNmsp;
-//	using namespace SerBaseNmsp;
-//    COM Commands[2]={{"RST\0",SerKomunik.clear,'H'},{"CLS\0",SerKomunik.clear,0}};
+	bool bTmp;
+
   /* USER CODE BEGIN 1 */
-
-/*	 char const Hlav[MAX_ROWS][MAX_ROW_LENGTH]={
-	      "ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป",
-	      "บ         Terminal control program for Live detection organism          บ",
-	      "บ                     running under FreeRTOS                            บ",
-	      "บ           (C) Ondrej Sakala for (R) GlobalLogic  s.r.o.               บ",
-	      "ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ"
-	    };*/
-
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -186,13 +177,6 @@ int main(void)
 
   osSemaphoreDef(xBinarySemaphore);
   xBinarySemaphoreHandle = osSemaphoreCreate(osSemaphore(xBinarySemaphore), 1);
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
@@ -218,6 +202,7 @@ int main(void)
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
  
+  bTmp = SerBaseCOM1.SetHuartArr (&huart1, &SerConstsNmsp::Hlavicka[0][0]);
 
   /* Start scheduler */
   osKernelStart();
@@ -568,9 +553,7 @@ void SerialMonitor(void const * argument)
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-
-	    	Temp = SerBaseCOM1.Clear(&huart1, &SerConstsNmsp::Hlavicka[0][0]);   // bool clear(UART_HandleTypeDef *huart, const char* Arr[0][0]);
-	    	//osDelay(1000);
+	    	Temp = SerBaseCOM1.Clear();    // clear screeen
 	    }
     	osDelay(1);
 	    //	xSemaphoreGiveFromISR( xBinarySemaphoreHandle, xHigherPriorityTaskWoken);

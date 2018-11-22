@@ -80,8 +80,8 @@ osSemaphoreId biSemGetSerialDataHandle;
 osSemaphoreId biSemSendCANDataHandle;
 osSemaphoreId xBinarySemaphoreHandle;
 
-SerBase SerBaseCOM1;
-
+//SerBase SerBaseCOM1;
+ComTable  ComTableCOM1;
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
@@ -202,7 +202,7 @@ int main(void)
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
  
-  bTmp = SerBaseCOM1.SetHuartArr (&huart1, &SerConstsNmsp::Hlavicka[0][0]);
+  bTmp = ComTableCOM1.SetHuartArr (&huart1, &SerConstsNmsp::Hlavicka[0][0]);
 
   /* Start scheduler */
   osKernelStart();
@@ -553,7 +553,11 @@ void SerialMonitor(void const * argument)
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-	    	Temp = SerBaseCOM1.Clear();    // clear screeen
+	    	Temp = ComTableCOM1.Clear();    // clear screeen
+	    	//ComTableCOM1.ComLine[0].Param = 10;
+//	    	Temp = *(ComTableCOM1.ComLine[0].pFredMemFn)();
+	    	ComTableCOM1.pp3FredMemFn = &SerBase::Clear;
+	    	Temp = ComTableCOM1.*pp3FredMemFn;
 	    }
     	osDelay(1);
 	    //	xSemaphoreGiveFromISR( xBinarySemaphoreHandle, xHigherPriorityTaskWoken);

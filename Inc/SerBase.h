@@ -49,6 +49,27 @@ class SerBase {
 
 }; // class SerBase {
 
+typedef  bool (SerBase::*FredMemFn)(void);
+
+typedef struct {
+  unsigned char       Com[5];
+  FredMemFn           pFredMemFn;
+  unsigned int        Param;
+} COM_LINE;
+
+//FredMemFn           pFredMemFn;
+
+class ComTable: public SerBase {
+	public:  // private
+		ComTable();
+		~ComTable();
+	public:
+		 const COM_LINE ComLine[2]= {{"CLS\0",&SerBase::Clear,0},{"CLS\0",&SerBase::WriteMem,0}};
+		 FredMemFn pp1FredMemFn =  &SerBase::Clear;
+		 FredMemFn pp2FredMemFn =  &SerBase::WriteMem;
+		 FredMemFn pp3FredMemFn =  NULL;
+}; // class SerBase {
+
 #ifdef __cplusplus
 }
 #endif

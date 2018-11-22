@@ -95,41 +95,10 @@
 		return true;
 	}
 
-	/*
-
-	     bool SerBase::Clear(UART_HandleTypeDef *huart,const char* pcArr){
-
-    	unsigned char  ucLocCount = 0;
-        for (ucLocCount = 0; ucLocCount < MAX_ROWS; ucLocCount++) {
-        	debugPrintln(huart,const_cast<char*>(pcArr+(MAX_ROW_LENGTH*ucLocCount)));	// print full line
-        }
-        return true;
-    }
-
-	bool SerBase::WriteMem (long lAddres, long lData) {
-        return true;
+	ComTable::ComTable(void){
+		//pp3FredMemFn = &SerBase::Clear;
 	}
 
-	bool SerBase::ReadMem (long lAddres, long lData) {
-        return true;
+	ComTable::~ComTable(void){
+
 	}
-
-	bool SerBase::SetMemAdr (long lAddres) {
-        return true;
-	}
-
-	bool SerBase::SetMemSelector (char cMemSelect) {
-        return true;
-	}
-
-	bool SerBase::TaskList (void) {
-        return true;
-	}
-
-	bool SerBase::SetMemBase (long lAdress) {
-        return true;
-	}
-
-	 *
-	 */
-

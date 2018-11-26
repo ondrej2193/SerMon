@@ -55,6 +55,9 @@
 #include "SerBase.h"
 //#include "SerBase.cpp"
 
+using namespace SerConstsNmsp;
+using namespace SerBaseNmspc;
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -81,7 +84,7 @@ osSemaphoreId biSemSendCANDataHandle;
 osSemaphoreId xBinarySemaphoreHandle;
 
 //SerBase SerBaseCOM1;
-ComTable  ComTableCOM1;
+SerBase  ComTableCOM1;
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
@@ -116,10 +119,8 @@ void CANKomunik(void const * argument);
   * @retval None
   */
 
-
 int main(void)
 {
-	using namespace SerConstsNmsp;
 	bool bTmp;
 
   /* USER CODE BEGIN 1 */
@@ -542,7 +543,7 @@ void SerialMonitor(void const * argument)
 {
 //	SerBase SerKomunik;
   bool Temp;
-
+  //FredMemFn ppFredMemFn = &SerBase::Clear;
   /* USER CODE BEGIN SerialMonitor */
   /* Infinite loop */
 
@@ -553,11 +554,8 @@ void SerialMonitor(void const * argument)
   for(;;)
   {
 	    if (xSemaphoreTake ( xBinarySemaphoreHandle,portMAX_DELAY) == pdTRUE){
-	    	Temp = ComTableCOM1.Clear();    // clear screeen
-	    	//ComTableCOM1.ComLine[0].Param = 10;
-//	    	Temp = *(ComTableCOM1.ComLine[0].pFredMemFn)();
-	    	ComTableCOM1.pp3FredMemFn = &SerBase::Clear;
-	    	Temp = ComTableCOM1.*pp3FredMemFn;
+	    	//Temp = ComTableCOM1.Clear();    // clear screeen
+	    	Temp = (ComTableCOM1.*ComTableCOM1.ComLine[0].pFredMemFn)();
 	    }
     	osDelay(1);
 	    //	xSemaphoreGiveFromISR( xBinarySemaphoreHandle, xHigherPriorityTaskWoken);

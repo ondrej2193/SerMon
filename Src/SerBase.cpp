@@ -7,6 +7,7 @@
 
 #include "SerBase.h"
 
+using namespace SerBaseNmspc;
 
 	SerBase::SerBase(void) {
 
@@ -94,7 +95,7 @@
 		_pcArr = pcArr;
 		return true;
 	}
-
+/*
 	ComTable::ComTable(void){
 		//pp3FredMemFn = &SerBase::Clear;
 	}
@@ -102,3 +103,4 @@
 	ComTable::~ComTable(void){
 
 	}
+*/

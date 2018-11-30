@@ -456,7 +456,7 @@ static void MX_USART1_UART_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 }
 
 /* USART2 init function */

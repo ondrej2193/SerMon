@@ -35,12 +35,15 @@
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
 #include "cmsis_os.h"
-
+#include "SerBase.h"
 /* USER CODE BEGIN 0 */
 #include "externDefTiISR.h"
 /* USER CODE END 0 */
 
+
+
 /* External variables --------------------------------------------------------*/
+extern SerBase  ComTableCOM1;
 extern CAN_HandleTypeDef hcan;
 extern I2C_HandleTypeDef hi2c1;
 extern TIM_HandleTypeDef htim2;
@@ -48,10 +51,10 @@ extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
-
 extern TIM_HandleTypeDef htim1;
 
 extern osSemaphoreId xBinarySemaphoreHandle;
+extern osSemaphoreId bISemGetSerialDataHandle;
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
@@ -296,11 +299,12 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  BaseType_t *xHigherPriorityTaskWoken = pdFALSE;
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
-  //SetxBinarySemaphoreHandleFromISR (xHigherPriorityTaskWoken);
+
   xSemaphoreGiveFromISR( xBinarySemaphoreHandle, xHigherPriorityTaskWoken);
+
   /* USER CODE BEGIN TIM3_IRQn 1 */
   portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
   /* USER CODE END TIM3_IRQn 1 */
@@ -353,13 +357,32 @@ void I2C1_ER_IRQHandler(void)
 */
 void USART1_IRQHandler(void)
 {
-  int a;
   /* USER CODE BEGIN USART1_IRQn 0 */
-  a = huart1.Instance->DR;
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
+  /* spracovanie Rx dat */
+    if (ComTableCOM1.Esc2){                                    // ak bol ESC,0x5B ignoruj prijatu znak
+    	ComTableCOM1.InZn=((unsigned char)(huart1.Instance->DR & (unsigned long)0x000001FF));    // precitaj zank
+    	ComTableCOM1.InZn=0x00;                                   // ignoruj zank
+    	ComTableCOM1.Esc=ComTableCOM1.Esc2=false;                               // zrus priznaky
+        return;
+    }
+
+    if (ComTableCOM1.Esc && (((unsigned char)(huart1.Instance->DR & (unsigned long)0x000001FF))==0x5B)){ // ak bol ESC a prisiel 0x5B innoruj nasledujuci
+    	ComTableCOM1.Esc2=true;
+        return;
+    }
+
+    if (((unsigned char)(huart1.Instance->DR & (unsigned long)0x000001FF)) == 0x1B){            // prisiel znak ESC
+    	ComTableCOM1.Esc=true;
+        return;
+    }
+
+    ComTableCOM1.InZn = ((unsigned char)(huart1.Instance->DR & (unsigned long)0x000001FF));                  // prevezmi znak
+    ComTableCOM1.Esc=false;
+ //   OS_SignalCSema (&xSemaphoreZnakReady);                    // znak pripraveny na spracovanie
+
   /* USER CODE BEGIN USART1_IRQn 1 */
-  huart1.Instance->DR = a;
   /* USER CODE END USART1_IRQn 1 */
 }
 

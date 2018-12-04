@@ -56,7 +56,7 @@
 //#include "SerBase.cpp"
 
 using namespace SerConstsNmsp;
-using namespace SerBaseNmspc;
+//using namespace SerBaseNmspc;
 
 /* USER CODE BEGIN Includes */
 

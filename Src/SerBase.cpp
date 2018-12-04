@@ -7,7 +7,7 @@
 
 #include "SerBase.h"
 
-using namespace SerBaseNmspc;
+//using namespace SerBaseNmspc;
 
 	SerBase::SerBase(void) {
 

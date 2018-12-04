@@ -16,7 +16,7 @@
 #include "stm32f1xx_hal.h"
 #include <string.h>
 
-namespace SerBaseNmspc {
+//namespace SerBaseNmspc {
 
 	class SerBase {
 		public:  // private
@@ -38,7 +38,7 @@ namespace SerBaseNmspc {
 			  unsigned int        Param;
 			} COM_LINE;
 
-			COM_LINE ComLine[7]= {{"CLS\0",&SerBase::Clear,0},
+			const COM_LINE ComLine[7]= {{"CLS\0",&SerBase::Clear,0},
 								  {"CLS\0",&SerBase::WriteMem,0},
 								  {"CLS\0",&SerBase::ReadMem,0},
 								  {"CLS\0",&SerBase::SetMemAdr,0},
@@ -62,6 +62,9 @@ namespace SerBaseNmspc {
 			char _cMemSelect;
 			UART_HandleTypeDef *_huart;
 			const char *_pcArr;
+		public:
+			char InZn;
+			bool Esc,Esc2;
 
 	}; // class SerBase {
 
@@ -78,7 +81,11 @@ namespace SerBaseNmspc {
 			 char cTmpVar;
 	}; // class SerBase {
 */
-} // namespace SerBaseNmspc {
+
+//} // namespace SerBaseNmspc {
+
+
+
 
 #ifdef __cplusplus
 }
